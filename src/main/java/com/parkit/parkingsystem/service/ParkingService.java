@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
+
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -27,11 +28,18 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
-    public void processIncomingVehicle() {
+
+    //public void processIncomingVehicle() {
+    public boolean processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
+                boolean isOldUser = checkRecurringUser(vehicleRegNumber);
+                if (isOldUser)
+                {
+                    System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
+                }
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -48,10 +56,13 @@ public class ParkingService {
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:"+vehicleRegNumber+" is:"+inTime);
+                return true;
             }
         }catch(Exception e){
             logger.error("Unable to process incoming vehicle",e);
+            //return false;
         }
+        return false;
     }
 
     private String getVehichleRegNumber() throws Exception {
@@ -103,7 +114,9 @@ public class ParkingService {
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
-            fareCalculatorService.calculateFare(ticket);
+            boolean isOldUser = checkRecurringUser(vehicleRegNumber);
+
+            fareCalculatorService.calculateFare(ticket,isOldUser);
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
@@ -117,4 +130,10 @@ public class ParkingService {
             logger.error("Unable to process exiting vehicle",e);
         }
     }
+
+
+    public boolean checkRecurringUser(String vehicleRegNumber) {
+        return (ticketDAO.getTicket(vehicleRegNumber) != null);
+    }
+
 }

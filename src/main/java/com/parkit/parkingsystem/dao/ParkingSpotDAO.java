@@ -4,6 +4,7 @@ import com.parkit.parkingsystem.config.DataBaseConfig;
 import com.parkit.parkingsystem.constants.DBConstants;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
+import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,6 +55,36 @@ public class ParkingSpotDAO {
         }finally {
             dataBaseConfig.closeConnection(con);
         }
+    }
+
+
+    // Méthode pour recupérer le parking spot à partir d'un id
+    public ParkingSpot getParkingSpot (int idParking)
+    {
+        Connection con = null;
+        ParkingSpot theParkingSpot = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_PARKING_SPOT);
+            //p.PARKING_NUMBER, p.AVAILABLE, p.TYPE
+            ps.setInt(1,idParking);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                theParkingSpot = new ParkingSpot();
+                theParkingSpot.setAvailable(rs.getBoolean(2));
+                theParkingSpot.setId(rs.getInt(1));
+                theParkingSpot.setParkingType(ParkingType.valueOf(rs.getString(3)));
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        }catch (Exception ex){
+            logger.error("Error fetching next available slot",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+            return theParkingSpot;
+        }
+
+
     }
 
 }

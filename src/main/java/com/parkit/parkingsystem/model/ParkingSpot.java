@@ -13,6 +13,9 @@ public class ParkingSpot {
         this.isAvailable = isAvailable;
     }
 
+
+    //AOU
+    public ParkingSpot (){ }
     public int getId() {
         return number;
     }

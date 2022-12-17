@@ -10,21 +10,47 @@ public class InteractiveShell {
 
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
 
-    public static void loadInterface(){
+    //On ne parvient pas à simuler les appels à l'intérieur, du coup on fait comme si
+    //
+    //
+    private InputReaderUtil inputReaderUtil ;
+    private ParkingSpotDAO parkingSpotDAO ;
+    private TicketDAO ticketDAO ;
+    public ParkingService parkingService;
+    public InteractiveShell()
+    {
+        this.inputReaderUtil = new InputReaderUtil();
+        this.parkingSpotDAO = new ParkingSpotDAO();
+        this.ticketDAO = new TicketDAO();
+        this.parkingService = new ParkingService(inputReaderUtil,parkingSpotDAO,ticketDAO);
+    }
+
+    public void setParkingService(ParkingService parkingService) {
+        this.parkingService = parkingService;
+    }
+
+    public void setInputReaderUtil(InputReaderUtil inputReaderUtil) {
+        this.inputReaderUtil = inputReaderUtil;
+    }
+
+    public void loadInterface(){
+    //public static void loadInterface(){
         logger.info("App initialized!!!");
         System.out.println("Welcome to Parking System!");
 
         boolean continueApp = true;
-        InputReaderUtil inputReaderUtil = new InputReaderUtil();
+        /*InputReaderUtil inputReaderUtil = new InputReaderUtil();
         ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO();
         TicketDAO ticketDAO = new TicketDAO();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-
+*/
         while(continueApp){
             loadMenu();
             int option = inputReaderUtil.readSelection();
+            //int option = this.inputReaderUtil.readSelection();
             switch(option){
                 case 1: {
+                	
                     parkingService.processIncomingVehicle();
                     break;
                 }
@@ -48,5 +74,7 @@ public class InteractiveShell {
         System.out.println("2 Vehicle Exiting - Generate Ticket Price");
         System.out.println("3 Shutdown System");
     }
+
+
 
 }
