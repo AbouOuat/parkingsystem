@@ -36,7 +36,6 @@ public class InteractiveShellTest {
 
         when (inputReaderUtil.readSelection()).thenReturn(1,2,3);
         // On met 1,2 et surtout 3 pour pouvoir ensuite sortir du "while(continueApp){"
-        //when (inputReaderUtil.readSelection()).thenReturn(1);
         interactiveShell = new InteractiveShell();
         interactiveShell.setInputReaderUtil(inputReaderUtil);
         interactiveShell.setParkingService(parkingService);
