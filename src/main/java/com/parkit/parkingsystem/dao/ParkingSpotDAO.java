@@ -57,8 +57,6 @@ public class ParkingSpotDAO {
         }
     }
 
-
-    // Méthode pour recupérer le parking spot à partir d'un id
     public ParkingSpot getParkingSpot (int idParking)
     {
         Connection con = null;

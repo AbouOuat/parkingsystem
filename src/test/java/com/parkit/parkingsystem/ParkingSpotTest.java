@@ -12,11 +12,10 @@ public class ParkingSpotTest {
     public void equalsTest() {
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         ParkingSpot parkingSpot2 = new ParkingSpot(1, ParkingType.BIKE, false);
-        int parkingVal = 1 ;
-        ParkingSpotTest parkingSpotTest = new ParkingSpotTest();
+        Integer iNumber = 1;
         assertTrue(parkingSpot.equals(parkingSpot));
-        assertFalse(parkingSpot.equals(null));
-        assertTrue(parkingSpot.equals(parkingSpot2));
+        assertFalse(iNumber.equals(null));
+        assertFalse(iNumber.equals(parkingSpot2));
     }
 
     @Test

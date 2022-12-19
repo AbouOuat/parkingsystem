@@ -14,7 +14,6 @@ public class ParkingSpot {
     }
 
 
-    //AOU
     public ParkingSpot (){ }
     public int getId() {
         return number;

@@ -46,7 +46,6 @@ public class ParkingServiceTest {
             ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
-            //when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
             when(ticketDAO.getTicket("ABCDEF")).thenReturn(ticket);
             when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
@@ -70,7 +69,6 @@ public class ParkingServiceTest {
         boolean isPresent = parkingService.checkRecurringUser("ABCDEF");
         assertTrue(isPresent, "Le véhicule n'est pas répertorié.");
 
-       //when(ticketDAO.getTicket("AB")).thenReturn(null);
         boolean isAbsent = parkingService.checkRecurringUser("AB");
         assertFalse(isAbsent, "Le véhicule est déjà répertorié.");
 
@@ -97,7 +95,6 @@ public class ParkingServiceTest {
     @Test
     public void getNextParkingNumberIfAvailableTestOK(){
         when(inputReaderUtil.readSelection()).thenReturn(1);
-        //when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
         ParkingSpot theParkingSpot = parkingService.getNextParkingNumberIfAvailable();
         assertNotNull(theParkingSpot, "Le test sur getNextParkingNumberIfAvailable est KO.");
@@ -105,35 +102,7 @@ public class ParkingServiceTest {
     @Test
     public void getNextParkingNumberIfAvailableTestKO(){
         when(inputReaderUtil.readSelection()).thenReturn(3);
-        //when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
-
-        //AAA  when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
-
-        //ParkingSpot theParkingSpot = parkingService.getNextParkingNumberIfAvailable();
-        //assertThrows(Exception.class, () -> parkingService.getNextParkingNumberIfAvailable());
-        //assertThrows(Exception.class, () -> parkingService.getNextParkingNumberIfAvailable());
-
-        //
-        //assertThrows(java.lang.IllegalArgumentException.class, () -> parkingService.getNextParkingNumberIfAvailable());
-
         assertNull(parkingService.getNextParkingNumberIfAvailable());
 
     }
-
-   // @Test
-    //public void getNextParkingNumberIfAvailableTestIllegalException(){
-      //  when(inputReaderUtil.readSelection()).thenReturn(3);
-        //assertThrows(IllegalArgumentException.class, () -> when(inputReaderUtil.readSelection()).thenReturn(3));
-
-        //when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
-        //when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
-        //ParkingSpot theParkingSpot = parkingService.getNextParkingNumberIfAvailable();
-        //assertTrue(true);
-        //assertThrows(Exception.class, () -> parkingService.getNextParkingNumberIfAvailable());
-        //assertThrows(Exception.class, () -> parkingService.getNextParkingNumberIfAvailable());
-        //assertNull(parkingService.getNextParkingNumberIfAvailable());
-
-    //}
-
-
 }
