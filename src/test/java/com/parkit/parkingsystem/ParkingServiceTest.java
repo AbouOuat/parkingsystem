@@ -65,16 +65,16 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void checkRecurringUserTest(){
+    public void checkRecurringUserOKTest(){
         boolean isPresent = parkingService.checkRecurringUser("ABCDEF");
         assertTrue(isPresent, "Le véhicule n'est pas répertorié.");
-
-        boolean isAbsent = parkingService.checkRecurringUser("AB");
-        assertFalse(isAbsent, "Le véhicule est déjà répertorié.");
-
-
     }
 
+    @Test
+    public void checkRecurringUserKOTest(){
+        boolean isAbsent = parkingService.checkRecurringUser("AB");
+        assertFalse(isAbsent, "Le véhicule est déjà répertorié.");
+    }
     @Test
     public void processIncomingVehicleCARTest()
     {
@@ -93,14 +93,14 @@ public class ParkingServiceTest {
         assertTrue(bProcessOk);
     }
     @Test
-    public void getNextParkingNumberIfAvailableTestOK(){
+    public void getNextParkingNumberIfAvailableOKTest(){
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
         ParkingSpot theParkingSpot = parkingService.getNextParkingNumberIfAvailable();
         assertNotNull(theParkingSpot, "Le test sur getNextParkingNumberIfAvailable est KO.");
     }
     @Test
-    public void getNextParkingNumberIfAvailableTestKO(){
+    public void getNextParkingNumberIfAvailableKOTest(){
         when(inputReaderUtil.readSelection()).thenReturn(3);
         assertNull(parkingService.getNextParkingNumberIfAvailable());
 

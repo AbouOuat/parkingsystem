@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class InputReaderUtil {
 
-    private static Scanner scan = new Scanner(System.in);
+    private Scanner scan = new Scanner(System.in, "UTF-8");
 
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
@@ -37,11 +37,11 @@ public class InputReaderUtil {
     }
 
     public void setScan(Scanner scan) {
-        InputReaderUtil.scan = scan;
+        this.scan = scan;
     }
 
     public Scanner getScan(){
-        return InputReaderUtil.scan;
+        return this.scan;
     }
 
 }

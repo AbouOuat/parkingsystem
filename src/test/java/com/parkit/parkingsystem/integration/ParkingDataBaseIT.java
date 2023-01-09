@@ -81,7 +81,6 @@ public class ParkingDataBaseIT {
             Thread.sleep(2000);
             parkingService.processExitingVehicle();
             //TODO: check that the fare generated and out time are populated correctly in the database
-            // On regarde s'il ya eu une mise à jour du ticket suite au processus de sortie.
             Ticket theTicket = ticketDAO.getTicket("ABCDEF");
             assertTrue (ticketDAO.updateTicket(theTicket));
             assertNotNull(theTicket.getInTime());

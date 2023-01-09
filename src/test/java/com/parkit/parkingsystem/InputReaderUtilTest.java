@@ -47,7 +47,6 @@ public class InputReaderUtilTest {
         InputReaderUtil = new InputReaderUtil();
         InputReaderUtil.setScan(scan);
         assertThrows(java.lang.IllegalArgumentException.class, ()->InputReaderUtil.readVehicleRegistrationNumber());
-
 }
 
 }
